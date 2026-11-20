@@ -206,6 +206,16 @@ def init_state():
 
 init_state()
 
+# Landing-page language and navigation helpers.
+if "landing_language" not in st.session_state:
+    st.session_state.landing_language = "en"
+
+def _open_studio():
+    st.session_state.main_navigation = "Launch Studio"
+
+def _toggle_landing_language():
+    st.session_state.landing_language = "fa" if st.session_state.landing_language == "en" else "en"
+
 
 # =====================================================
 # 4. NCBI CENTRAL CONFIGURATION
@@ -270,7 +280,8 @@ with st.sidebar:
     page = st.radio(
         "RESEARCH WORKSPACE",
         [
-            "Overview",
+            "Home",
+            "Launch Studio",
             "Gene & Transcript",
             "Sequence Analysis",
             "Variant Analysis",
@@ -297,7 +308,7 @@ with st.sidebar:
 
 st.markdown(f"""
 <div class="topline">
-  <div class="topline-brand">HELIXORA <span style="color:#91A6B5;font-weight:500">/ Molecular Research Workspace</span></div>
+  <div class="topline-brand">HELIXORA <span style="color:#91A6B5;font-weight:500">/ Bioinformatics Research Studio</span></div>
   <div class="topline-label">{page}</div>
 </div>
 """, unsafe_allow_html=True)
@@ -307,7 +318,87 @@ st.markdown(f"""
 # PAGE 1 — OVERVIEW
 # =====================================================
 
-if page == "Overview":
+if page == "Home":
+    lang = st.session_state.landing_language
+    is_fa = lang == "fa"
+    if is_fa:
+        st.markdown("""
+        <style>
+        .landing-wrap{direction:rtl;text-align:right}
+        .landing-hero{padding:2.5rem 2.4rem;border-radius:24px;background:radial-gradient(circle at 85% 15%,rgba(54,214,197,.22),transparent 32%),linear-gradient(120deg,#0B1728 0%,#12384A 58%,#126B68 100%);border:1px solid rgba(130,220,210,.18);box-shadow:0 20px 50px rgba(5,20,35,.18);margin:.5rem 0 1.4rem}
+        .landing-kicker{color:#8DE4D6;font-size:.78rem;font-weight:800;letter-spacing:.12em}
+        .landing-title{color:#fff;font-size:clamp(2rem,5vw,3.45rem);font-weight:850;line-height:1.25;margin:.65rem 0}
+        .landing-copy{color:#D9EBEF;font-size:1.05rem;line-height:2;max-width:850px}
+        .landing-chip{display:inline-block;border:1px solid rgba(141,228,214,.35);border-radius:99px;padding:.35rem .75rem;color:#C7F4EC;font-size:.8rem;margin:.25rem .2rem}
+        .landing-card{height:100%;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+        .landing-card h3{margin:.2rem 0 .45rem}.landing-card p{line-height:1.8;color:var(--muted)}
+        </style>
+        <div class="landing-wrap">
+          <div class="landing-hero">
+            <div class="landing-kicker">استودیوی پژوهشی بیوانفورماتیک</div>
+            <div class="landing-title">از داده‌های مولکولی تا بینش پژوهشی.</div>
+            <div class="landing-copy">هلیکساورا یک محیط یکپارچه برای بازیابی ژن و ترنسکریپت، بررسی توالی، تحلیل واریانت، مطالعه ایزوفرم‌ها، شناسایی ویژگی‌های ژن و پروتئین و طراحی پرایمرهای پژوهشی فراهم می‌کند.</div>
+            <span class="landing-chip">NCBI & RefSeq</span><span class="landing-chip">Sequence Analysis</span><span class="landing-chip">Variant Workflows</span><span class="landing-chip">Primer Design</span>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("## یک فضای کاری؛ چندین ابزار مولکولی")
+        st.write("ماژول موردنیاز را از نوار کناری انتخاب کنید یا برای ورود به محیط کاری روی دکمه زیر بزنید.")
+        launch_label = "ورود به استودیوی بیوانفورماتیک"
+        cards = [
+            ("🧬", "ژن و ترنسکریپت", "جست‌وجوی رکوردهای NCBI، دریافت RefSeq و بررسی حاشیه‌نویسی ژنی."),
+            ("🧪", "تحلیل توالی", "بررسی توالی‌های نوکلئوتیدی، اطلاعات CDS و خروجی FASTA."),
+            ("◎", "تحلیل واریانت", "بررسی تغییرات نوکلئوتیدی و پیامدهای پیش‌بینی‌شده در ناحیه کدکننده."),
+            ("◈", "پایگاه‌های داده", "بازیابی مقدماتی رکوردهای ClinVar و dbSNP برای بررسی بیشتر."),
+            ("⌘", "ترنسکریپت و ایزوفرم", "مقایسه ترنسکریپت‌ها، نگاشت پروتئین و بررسی پیرایش جایگزین."),
+            ("✳", "طراحی پرایمر", "طراحی و ارزیابی کاندیداهای پرایمر برای گردش‌کارهای RT-qPCR.")
+        ]
+    else:
+        st.markdown("""
+        <style>
+        .landing-hero{padding:2.5rem 2.4rem;border-radius:24px;background:radial-gradient(circle at 12% 15%,rgba(54,214,197,.22),transparent 32%),linear-gradient(120deg,#0B1728 0%,#12384A 58%,#126B68 100%);border:1px solid rgba(130,220,210,.18);box-shadow:0 20px 50px rgba(5,20,35,.18);margin:.5rem 0 1.4rem}
+        .landing-kicker{color:#8DE4D6;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+        .landing-title{color:#fff;font-size:clamp(2rem,5vw,3.45rem);font-weight:850;line-height:1.12;margin:.65rem 0}
+        .landing-copy{color:#D9EBEF;font-size:1.05rem;line-height:1.8;max-width:850px}
+        .landing-chip{display:inline-block;border:1px solid rgba(141,228,214,.35);border-radius:99px;padding:.35rem .75rem;color:#C7F4EC;font-size:.8rem;margin:.25rem .2rem}
+        .landing-card{height:100%;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+        .landing-card h3{margin:.2rem 0 .45rem}.landing-card p{line-height:1.65;color:var(--muted)}
+        </style>
+        <div class="landing-hero">
+          <div class="landing-kicker">Bioinformatics Research Studio</div>
+          <div class="landing-title">From molecular data to research insight.</div>
+          <div class="landing-copy">Helixora brings essential molecular workflows into one workspace — gene and transcript retrieval, sequence inspection, variant analysis, isoform comparison, gene and protein characterization, and research primer design.</div>
+          <span class="landing-chip">NCBI & RefSeq</span><span class="landing-chip">Sequence Analysis</span><span class="landing-chip">Variant Workflows</span><span class="landing-chip">Primer Design</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("## One workspace. Connected molecular tools.")
+        st.write("Choose a module from the sidebar, or launch the complete research workspace.")
+        launch_label = "Launch Bioinformatics Studio"
+        cards = [
+            ("🧬", "Gene & Transcript", "Search NCBI records, retrieve RefSeq transcripts and inspect gene annotations."),
+            ("🧪", "Sequence Analysis", "Inspect nucleotide sequences, coding regions and export FASTA records."),
+            ("◎", "Variant Analysis", "Explore nucleotide substitutions and predicted coding consequences."),
+            ("◈", "Database Search", "Retrieve preliminary ClinVar and dbSNP records for further review."),
+            ("⌘", "Transcript & Isoform Analysis", "Compare transcript structures, protein mappings and alternative splicing."),
+            ("✳", "Primer Design", "Design and assess primer candidates for research RT-qPCR workflows.")
+        ]
+    top_left, top_right = st.columns([1, 5])
+    with top_left:
+        st.button("فارسی" if not is_fa else "English", key="landing_language_toggle", on_click=_toggle_landing_language)
+    with top_right:
+        st.button(launch_label, key="launch_helixora", type="primary", on_click=_open_studio, use_container_width=True)
+    for i in range(0, len(cards), 3):
+        cols = st.columns(3)
+        for col, item in zip(cols, cards[i:i+3]):
+            icon, title, description = item
+            with col:
+                st.markdown(f'<div class="landing-card"><div style="font-size:1.55rem">{icon}</div><h3>{title}</h3><p>{description}</p></div>', unsafe_allow_html=True)
+    st.markdown("### Developer / توسعه‌دهنده")
+    st.markdown("**Mahdi Mirzaei**  <br>Helixora Bioinformatics Studio", unsafe_allow_html=True)
+    st.caption("Academic research and educational use only. Computational outputs require source review and, where applicable, experimental validation. Not intended for clinical diagnosis or treatment decisions.")
+
+
+elif page == "Launch Studio":
     record = st.session_state.record
     analysis_df = st.session_state.analysis_df
     st.markdown("""
