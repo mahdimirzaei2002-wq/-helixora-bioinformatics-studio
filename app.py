@@ -166,6 +166,83 @@ code, pre, [data-testid="stCode"] {{ color:{'#DCEAF5' if DARK else '#17324A'}!im
 </style>
 """, unsafe_allow_html=True)
 
+# -----------------------------------------------------
+# Helixora UI refinement layer — consistent widget states
+# -----------------------------------------------------
+st.markdown(f"""
+<style>
+/* BaseWeb / Streamlit controls: keep every interaction state readable. */
+[data-baseweb="input"] > div, [data-baseweb="textarea"] > div,
+[data-testid="stTextInput"] [data-baseweb="input"] > div,
+[data-testid="stNumberInput"] [data-baseweb="input"] > div {{
+  background:var(--input)!important; border:1px solid var(--line)!important;
+  border-radius:11px!important; box-shadow:none!important;
+}}
+[data-baseweb="input"] input, [data-baseweb="textarea"] textarea,
+[data-testid="stNumberInput"] input {{
+  color:var(--input-text)!important; -webkit-text-fill-color:var(--input-text)!important;
+  background:transparent!important; caret-color:var(--brand)!important;
+}}
+[data-baseweb="select"] > div {{
+  background:var(--input)!important; color:var(--input-text)!important;
+  border:1px solid var(--line)!important; border-radius:11px!important;
+  box-shadow:none!important; min-height:42px;
+}}
+[data-baseweb="select"] input, [data-baseweb="select"] [role="combobox"],
+[data-baseweb="select"] [class*="singleValue"],
+[data-baseweb="select"] [class*="placeholder"] {{
+  color:var(--input-text)!important; -webkit-text-fill-color:var(--input-text)!important;
+}}
+[data-baseweb="popover"], [data-baseweb="menu"],
+[data-baseweb="popover"] > div, [role="listbox"] {{
+  background:var(--surface)!important; color:var(--ink)!important;
+  border:1px solid var(--line)!important; border-radius:12px!important;
+  box-shadow:var(--shadow)!important;
+}}
+[role="option"], [role="option"] span {{ color:var(--ink)!important; }}
+[role="option"]:hover, [role="option"][aria-selected="true"] {{
+  background:var(--surface-alt)!important; color:var(--ink)!important;
+}}
+[data-baseweb="input"]:focus-within, [data-baseweb="textarea"]:focus-within,
+[data-baseweb="select"]:focus-within {{
+  border-color:var(--brand)!important; box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)!important;
+}}
+/* Buttons, tabs, radio, checkbox, segmented controls */
+.stButton button, .stDownloadButton button, [data-testid="stFormSubmitButton"] button {{
+  border-radius:11px!important; font-weight:700!important; min-height:42px;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease;
+}}
+.stButton button:focus-visible, .stDownloadButton button:focus-visible {{
+  outline:3px solid color-mix(in srgb,var(--brand) 45%,transparent)!important; outline-offset:2px;
+}}
+[data-testid="stTabs"] [role="tablist"] {{ gap:6px; border-bottom:1px solid var(--line); }}
+[data-testid="stTabs"] button[role="tab"] {{
+  color:var(--muted)!important; border-radius:9px 9px 0 0!important;
+  font-weight:700!important; padding:.65rem .9rem!important;
+}}
+[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
+  color:var(--brand)!important; border-bottom:3px solid var(--brand)!important;
+}}
+[data-testid="stRadio"] label, [data-testid="stCheckbox"] label {{ color:var(--body)!important; }}
+[data-testid="stRadio"] [role="radio"], [data-testid="stCheckbox"] [role="checkbox"] {{ accent-color:var(--brand); }}
+[data-testid="stExpander"] {{ overflow:hidden; }}
+[data-testid="stExpander"] summary {{ padding:.55rem .7rem; }}
+[data-testid="stExpander"] summary:hover {{ background:var(--surface-alt)!important; }}
+/* Uploaders, sliders, alerts and data surfaces */
+[data-testid="stFileUploader"] section {{ background:var(--surface)!important; border:1px dashed var(--line)!important; border-radius:13px!important; }}
+[data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span {{ color:var(--muted)!important; }}
+[data-testid="stSlider"] [data-baseweb="slider"] div {{ border-color:var(--brand); }}
+[data-testid="stAlert"] {{ border-radius:12px!important; }}
+[data-testid="stDataFrame"] {{ background:var(--surface)!important; border:1px solid var(--line)!important; border-radius:13px!important; }}
+[data-testid="stMetric"] {{ transition:border-color .16s ease,transform .16s ease; }}
+[data-testid="stMetric"]:hover {{ border-color:var(--brand)!important; transform:translateY(-1px); }}
+/* Ensure markdown links remain visible in both palettes. */
+a {{ color:var(--brand)!important; text-decoration-thickness:1px; text-underline-offset:3px; }}
+a:hover {{ color:var(--brand-dark)!important; }}
+::selection {{ background:color-mix(in srgb,var(--brand) 28%,transparent); color:var(--ink); }}
+</style>
+""", unsafe_allow_html=True)
+
 
 # =====================================================
 # 3. SESSION STATE
